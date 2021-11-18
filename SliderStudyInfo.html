@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .cv_list {
+            width: 100%;
+            height: 100%;
+        }
+
+        .cv_item {
+            display: flex;
+            width: 100%;
+            justify-content: space-around;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .add_more,
+        .remove_item {
+            width: 35px;
+            height: 35px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+    <script src="../jquery/jquery.js"></script>
+</head>
+
+<body>
+
+    <h1>Ali təhsil haqqında məlumat</h1>
+    <ul class="cv_list">
+        <li class="cv_item">
+            <p>Universitetin adı:</p><input type="text" />
+            <p>Dərəcə:</p>
+            <select class="degree">
+            </select>
+            <p>Qəbul ili:</p>
+            <select class="enter_date">
+            </select>
+            <p>Bitirmə ili:</p>
+            <select class="graduate_date">
+            </select>
+
+            <button type="button" class="add_more">+</button>
+        </li>
+
+    </ul>
+
+    <script>
+
+
+        $(document).ready(function () {
+
+            let arr_deg = ["Bakalavr", "Magistratura", "Doktorantura"],
+                arr_enter = [],
+                arr_grad = [],
+                option = "",
+                option_enter = "",
+                option_graduate = "";
+
+            arr_deg.forEach((item) => {
+                option += `<option>${item}</option>`
+            })
+
+            $(".degree").html(option);
+
+
+            for (i = 1960; i <= 2016; i++) {
+                arr_enter.push(i)
+            }
+
+            arr_enter.forEach(item => {
+                option_enter += `<option>${item}</option>`
+
+            })
+            $(".enter_date").html(option_enter)
+
+
+            for (j = 1964; j <= 2021; j++) {
+                arr_grad.push(j)
+            }
+
+            arr_grad.forEach(item => {
+                option_graduate += `<option>${item}</option>`
+            })
+
+            $(".graduate_date").html(option_graduate)
+
+
+            $(document).on("click", ".add_more", function () {
+                var current_li = $(this).parents(".cv_list").find("li:last"),
+                    copy_li = current_li.clone();
+
+                    $(".add_more").prop("disabled", true)
+
+                copy_li.insertAfter($(this).parents(".cv_list").find("li:last")).hide().slideDown(350, () => {
+                    $(".add_more").prop("disabled", false)
+                })
+                // stop()-u ishlede bilmedim
+
+                last_li = $(this).parents(".cv_list").find("li:last");
+                last_li.find("input").val("");
+
+                last_li.find(".add_more").removeClass("add_more").addClass("remove_item").text("-")
+            })
+
+
+            $(document).on("click", ".remove_item", function () {
+                let current_li = $(this).parents("li");
+                if (confirm("Daxil etdiyiniz məlumatlar silinəcək")) {
+                    current_li.slideUp(350, function () {
+                        $(this).remove()
+                    })
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>
